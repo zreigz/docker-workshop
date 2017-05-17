@@ -25,6 +25,7 @@ Container is created but not started:
 
 ```
 $ docker start 9aadcef8e731
+$ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                  NAMES
 9aadcef8e731        nginx               "nginx -g 'daemon ..."   About a minute ago   Up 4 seconds        0.0.0.0:8080->80/tcp   vigilant_keller
 
