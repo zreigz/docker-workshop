@@ -30,7 +30,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 9aadcef8e731        nginx               "nginx -g 'daemon ..."   About a minute ago   Up 4 seconds        0.0.0.0:8080->80/tcp   vigilant_keller
 
 ```
-The `nginx` container is up and running. Now we can try connect to this server:
+The `nginx` container is up and running. Now we can try to connect to this server:
 
 ```
 $ curl localhost:8080
