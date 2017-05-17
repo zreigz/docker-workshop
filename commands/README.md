@@ -77,6 +77,12 @@ $ curl localhost:8080
 Welcome to docker workshop
 ```
 
+Check the container logs:
+
+```
+$ docker logs 9aadcef8e731
+```
+
 Last thing is to stop and remove the nginx container:
 
 ```
