@@ -4,6 +4,17 @@ Although `ADD` and `COPY` are functionally similar, generally speaking, `COPY` i
 (like local-only tar extraction and remote URL support) that are not immediately obvious. 
 Consequently, the best use for `ADD` is local tar file auto-extraction into the image, as in `ADD rootfs.tar.xz /`.
 
+## Dockerfile
+
+```
+FROM php:7.0-apache
+MAINTAINER Lukasz Zajaczkowski "zreigz@gmail.com"
+
+COPY index.html /var/www/html/index.html
+ADD image.tar.gz /var/www/html/
+
+EXPOSE 80
+```
 ## Build image
 
 ```
