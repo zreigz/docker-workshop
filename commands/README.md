@@ -100,7 +100,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 Now, its time for something interesting to help us understand some more commands. We will continue with our example around busybox Image.
 
-First up, we will relaunch our container without the -i (interactive) mode.
+First up, we will relaunch our container without the -i (interactive: keep STDIN open even if not attached) and -d  (detach: run container in background and print container ID) mode.
 
 ```
 $ docker run -it -d busybox /bin/sh
