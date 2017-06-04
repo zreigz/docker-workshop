@@ -96,4 +96,32 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 ```
 
+## Attach to a running Container
 
+Now, its time for something interesting to help us understand some more commands. We will continue with our example around busybox Image.
+
+First up, we will relaunch our container without the -i (interactive) mode.
+
+```
+$ docker run -it -d busybox /bin/sh
+```
+
+Whoops ! What happened ?
+
+The only output that we got was the CONTAINER ID back.
+
+What has just happened is that the Container has got launched and all that docker client has done is give you the Container ID back.
+
+Give the following command to check out the current running containers (the command should be familiar to you now):
+```
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+748610e35694        busybox             "/bin/sh"           4 seconds ago       Up 4 seconds                            unruffled_engelbart
+```
+This gives us the output that the CONTAINER is running (Check the STATUS column. You will find that it says it is Up!)
+
+We can attach to a running Container via the docker attach command. Let us attach to it:
+```
+$ docker attach 748610e35694
+```
+This will get you back to the Prompt i.e. you are now inside the busybox container. Type exit to exit the container and then try the docker ps command. There will be no running containers.
