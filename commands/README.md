@@ -134,7 +134,7 @@ The command started using docker exec only runs while the container’s primary 
 
 First, start a container.
 ```
-$ docker run --name ubuntu_bash --rm -i -t ubuntu bash
+$ docker run --name ubuntu_bash --rm -i -t -d ubuntu bash
 ```
 This will create a container named ubuntu_bash and start a Bash session.
 
@@ -149,3 +149,21 @@ Next, execute an interactive bash shell on the container.
 $ docker exec -it ubuntu_bash bash
 ```
 This will create a new Bash session in the container ubuntu_bash.
+You can check if file `/tmp/execWorks` was created inside the container:
+
+```
+root@afac4ec3434b:/# ls /tmp/execWorks 
+/tmp/execWorks
+```
+
+Now you can exit the container:
+
+```
+# exit
+```
+
+and remove container with `-f` flag (force) and you don't need to stop the container.
+
+```
+docker rm -f ubuntu_bash
+```
