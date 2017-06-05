@@ -91,3 +91,9 @@ To generate this message, Docker took the following steps:
 ...(snipped)...
 
 ```
+Now would also be a good time to make sure you are using version correct
+```
+$ docker --version
+Docker version 17.05.0-ce-rc1, build 2878a85
+```
+If you see messages like the ones above, you’re ready to begin the journey.
