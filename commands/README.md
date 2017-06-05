@@ -125,3 +125,27 @@ We can attach to a running Container via the docker attach command. Let us attac
 $ docker attach 748610e35694
 ```
 This will get you back to the Prompt i.e. you are now inside the busybox container. Type exit to exit the container and then try the docker ps command. There will be no running containers.
+
+## Docker exec
+
+The docker exec command runs a new command in a running container.
+
+The command started using docker exec only runs while the container’s primary process (PID 1) is running, and it is not restarted if the container is restarted.
+
+First, start a container.
+```
+$ docker run --name ubuntu_bash --rm -i -t ubuntu bash
+```
+This will create a container named ubuntu_bash and start a Bash session.
+
+Next, execute a command on the container.
+```
+$ docker exec -d ubuntu_bash touch /tmp/execWorks
+```
+This will create a new file /tmp/execWorks inside the running container ubuntu_bash, in the background.
+
+Next, execute an interactive bash shell on the container.
+```
+$ docker exec -it ubuntu_bash bash
+```
+This will create a new Bash session in the container ubuntu_bash.
