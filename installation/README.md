@@ -79,3 +79,15 @@ Reboot machine
 ```
 $ sudo reboot
 ```
+
+You should be able to run docker run hello-world and see a response like this:
+```
+$ docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+...(snipped)...
+
+```
