@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  redis-service:
+    image: "redis"
+  web-list-service:
+    image: "zreigz/web-list"
+  web-list-ui:
+    image: "zreigz/web-list-ui"
+    ports:
+      - "8888:80"
+
