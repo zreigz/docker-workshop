@@ -27,7 +27,7 @@ docker-compose version 1.19.0, build 1719ceb
 
 ## Example
 
-Let’s create a project with the following structure:
+Let’s use a project with the following structure:
 ```
 redis-commander
        ├── commander
