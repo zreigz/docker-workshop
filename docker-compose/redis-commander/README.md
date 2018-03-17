@@ -68,11 +68,11 @@ where
 - `-d` detached mode: Run containers in the background, print new container names. 
 - `--build` build images before starting containers
 
-The command docker-compose up -d has the same effect as the following sequence of commands:
+The command `docker-compose up -d` has the same effect as the following sequence of commands:
 ```
-docker build -t rediscommander/redis-commander:latest commander
-docker run -d --name frontend -e REDIS_HOSTS=local:redis:6379 -p 8081:8081
-   --link redis:redis redis-commander
+$ docker build -t rediscommander/redis-commander:latest commander
+$ docker run -d --name frontend -e REDIS_HOSTS=local:redis:6379 -p 8081:8081
+         --link redis:redis redis-commander
 ```
 
 To check status execute `docker-compose ps` command.
