@@ -5,7 +5,7 @@
 Older versions of Docker were called `docker` or `docker-engine`. If these are installed, uninstall them:
 
 ```
-$ sudo apt-get remove docker docker-engine
+$ sudo apt-get remove docker docker-engine docker.io
 ```
 
 ## Installation
