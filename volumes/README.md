@@ -142,7 +142,7 @@ Create some file in the mountpoint directory:
 ```
 $ echo "test" > /data/images/test.txt
 ```
-Check if the file `test.txt` appears in container
+Check if the file `test.txt` appears in the container.
 
 ```
 $ docker exec test-local-persist cat /data/test.txt
