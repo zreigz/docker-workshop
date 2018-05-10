@@ -45,52 +45,20 @@ Other arguments which include adding users and setting environment variable and 
 
 ## Example
 
-### Hello World container
-
-```
-$ docker run hello-world
-
-Unable to find image 'hello-world:latest' locally
-latest: Pulling from library/hello-world
-78445dd45222: Pull complete
-Digest: sha256:c5515758d4c5e1e838e9cd307f6c6a0d620b5e07e6f927b07d05f6d12a1ac8d7
-Status: Downloaded newer image for hello-world:latest
-
-Hello from Docker!
-This message shows that your installation appears to be working correctly.
-
-To generate this message, Docker took the following steps:
- 1. The Docker client contacted the Docker daemon.
- 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
- 3. The Docker daemon created a new container from that image which runs the
-    executable that produces the output you are currently reading.
- 4. The Docker daemon streamed that output to the Docker client, which sent it
-    to your terminal.
-
-To try something more ambitious, you can run an Ubuntu container with:
- $ docker run -it ubuntu bash
-
-Share images, automate workflows, and more with a free Docker ID:
- https://cloud.docker.com/
-
-For more examples and ideas, visit:
- https://docs.docker.com/engine/userguide/
-```
-
 ### Ubuntu Container
 
 Run an Ubuntu container in interactive (-i) tty (-t) mode.
 ```
-$ docker run -i -t ubuntu /bin/bash
+$ docker run -i -t --name cowsay ubuntu /bin/bash
 ```
 
 #### Commit Changes to Docker
 
 To create a new image from changes to a container, it’s a simple as running just one command. Before we do so, however, let’s change the container!
 
-Update repository and install git:
+Update repository and install `cowsay` application:
 ```
-root@62fac3481f58:/# apt-get  update && apt-get install git -y
+root@62fac3481f58:/# apt-get  update && apt-get install cowsay -y
 ```
 
 Once you’ve completed those instructions you can disconnect, or detach, from the shell without
@@ -99,55 +67,90 @@ exiting use the escape sequence `Ctrl-p and Ctrl-q`.
 Find your running instance. Execute the following command:
 
 ```
-$ docker ps
-CONTAINER ID        IMAGE                                                        COMMAND                  CREATED             STATUS              PORTS               NAMES
-62fac3481f58        ubuntu                                                       "/bin/bash"              2 minutes ago       Up 2 minutes                            jovial_thompson
+$ docker ps --filter 'name=cow*'
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+1e1fb405cfef        ubuntu              "/bin/bash"         5 minutes ago       Up 5 minutes                            cowsay
 
 ```
 
 Finally it’s time to commit our changes to a named image.
-This command converts the container 62fac3481f58 to an image with the name ubintu-with-git:
+This command converts the container with name `cowsay` to an image with the name ubuntu-cowsay:
 ```
-$ docker commit 62fac3481f58 ubuntu-with-git
+$ docker commit cowsay ubuntu-cowsay
 sha256:78cec5314cb72659fa856acb804bc0890594ad391ff028bdb15f0524f70e8c47
 ```
 
 Now you can check your available images:
 ```
-$ docker images
-REPOSITORY                                            TAG                                        IMAGE ID            CREATED              SIZE
-ubuntu-with-git                                       latest                                     78cec5314cb7        About a minute ago   246.5 MB
-....
-....
+$ docker images '*cowsay'
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu-cowsay       latest              fdebe69c4433        5 minutes ago       160MB
 ```
 
 Every image tracks own history
 
 ```
-$ docker history ubuntu-with-git
+$ docker history ubuntu-cowsay
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-78cec5314cb7        2 minutes ago       /bin/bash                                       128.5 MB
-ebcd9d4fca80        40 hours ago        /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
-<missing>           40 hours ago        /bin/sh -c mkdir -p /run/systemd && echo 'doc   7 B
-<missing>           40 hours ago        /bin/sh -c sed -i 's/^#\s*\(deb.*universe\)$/   2.759 kB
-<missing>           40 hours ago        /bin/sh -c rm -rf /var/lib/apt/lists/*          0 B
-<missing>           40 hours ago        /bin/sh -c set -xe   && echo '#!/bin/sh' > /u   745 B
-<missing>           40 hours ago        /bin/sh -c #(nop) ADD file:d14b493577228a4989   117.9 MB
-```
-
-To show image information like IP adress, enviroment.
+fdebe69c4433        6 minutes ago       /bin/bash                                       80.6MB              
+452a96d81c30        12 days ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           12 days ago         /bin/sh -c mkdir -p /run/systemd && echo '...   7B                  
+<missing>           12 days ago         /bin/sh -c sed -i 's/^#\s*\(deb.*universe\...   2.76kB              
+<missing>           12 days ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           12 days ago         /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745B                
+<missing>           12 days ago         /bin/sh -c #(nop) ADD file:81813d6023adb66...   79.6MB              
 
 ```
-$ docker inspect ubuntu-with-git
+
+To show image information like IP address, environment.
+
+```
+$ docker inspect ubuntu-cowsay
 ```
 
-Now is time to clean up. Please find your container and kill it:
-```
-$ docker ps
-CONTAINER ID        IMAGE                                                        COMMAND                  CREATED             STATUS              PORTS               NAMES
-62fac3481f58        ubuntu                                                       "/bin/bash"              2 minutes ago       Up 2 minutes                            jovial_thompson
+You can filter out some informations:
 
-$ docker kill 62fac3481f58
-$ docker ps
-CONTAINER ID        IMAGE                                                        COMMAND                  CREATED             STATUS              PORTS               NAMES
+#### Examples
+Get an instance’s IP address
+For the most part, you can pick out any field from the JSON in a fairly straightforward manner.
 ```
+$ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cowsay
+172.17.0.3
+```
+
+Get an instance’s MAC address
+```
+$ docker inspect --format='{{range .NetworkSettings.Networks}}{{.MacAddress}}{{end}}' cowsay
+02:42:ac:11:00:03
+```
+
+
+Now is time to `attach` to the running container. Basically, if the docker container was started using `/bin/bash` command you can access it using `attach`
+
+```
+$ docker attach cowsay
+root@1e1fb405cfef:/#
+```
+
+Inside the container execute the command: `/usr/games/cowsay -f gnu Docker is the Best`
+
+```
+root@1e1fb405cfef:/# /usr/games/cowsay -f gnu Docker is the Best
+
+```
+
+Because you are attached to `/bin/bash` process the `exit` command will kill the container:
+
+```
+# exit
+$
+```
+
+Now the command:
+
+```
+$ docker ps --filter 'name=cow*'
+```
+
+will show nothing.
