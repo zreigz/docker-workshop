@@ -67,15 +67,30 @@ and copy `jar` file to your host:
 $ docker cp maven:/opt/maven/target/time-service-0.0.1-SNAPSHOT.jar ./
 ```
 
-Start the microservice:
+## Start the microservice
+
+Now you need Java environment to start the microservice.
+Start the Java container:
+```
+$ docker run -itd -p 9999:8080 --name openjdk openjdk:alpine sh
+```
+where `-p 9999:8080` redirects opened microservice port `8080` to host port `9999`.
+
+Copy source files to new created container:
+```
+$ docker cp configuration.yml openjdk:/
+$ docker cp time-service-0.0.1-SNAPSHOT.jar openjdk:/
+```
+Start the microservice inside the `openjdk` container:
 
 ```
-$ java -jar time-service-0.0.1-SNAPSHOT.jar server configuration.yml
+$ docker exec -it openjdk java -jar time-service-0.0.1-SNAPSHOT.jar server configuration.yml
 ```
+To detach from the shell without exiting use the escape sequence `Ctrl-p` and `Ctrl-q`.
 
-In another terminal check if it is working.
+In terminal or WEB browser check if it is working.
 
 ```
-$ curl localhost:8080/time
+$ curl localhost:9999/time
 {"time" : "2018/05/10 12:04:08"}
 ```
