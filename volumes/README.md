@@ -106,7 +106,21 @@ Use provided an `install` script that will download the proper binary, set up an
 curl -fsSL https://raw.githubusercontent.com/CWSpear/local-persist/master/scripts/install.sh | sudo bash
 
 ```
+Restart Docker:
+```
+$ sudo systemctl restart docker
+```
 
+## Creating Volumes
+
+Then to use, you can create a volume with this plugin (this example will be for a shared folder for images):
+```
+$ docker volume create -d local-persist -o mountpoint=/data/images --name=images
+```
+Then if you create a container, you can connect it to this Volume:
+```
+$ docker run -dit -v images:/data --name test-local-persist busybox sh
+```
 To check if the volume plugin was installed corectly please execute the following command:
 
 ```
@@ -119,16 +133,6 @@ In response you should get:
 Plugins: 
  Volume: local local-persist
 
-```
-## Creating Volumes
-
-Then to use, you can create a volume with this plugin (this example will be for a shared folder for images):
-```
-$ docker volume create -d local-persist -o mountpoint=/data/images --name=images
-```
-Then if you create a container, you can connect it to this Volume:
-```
-$ docker run -dit -v images:/data --name test-local-persist busybox sh
 ```
 
 Grant access to the mountpoint directory:
