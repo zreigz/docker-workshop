@@ -37,7 +37,7 @@ Copy source files to the working directory inside the container.
 $ docker cp ./ maven:/opt/maven
 ```
 
-Run build process:
+Run build process inside the `maven` container:
 
 ```
 $ docker exec -it maven mvn clean install
