@@ -94,3 +94,10 @@ In terminal or WEB browser check if it is working.
 $ curl localhost:9999/time
 {"time" : "2018/05/10 12:04:08"}
 ```
+## Cleanup
+
+Now stop and remove the containers:
+
+```
+$ docker rm -f openjdk maven
+```
